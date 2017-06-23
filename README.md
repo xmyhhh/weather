@@ -1,9 +1,9 @@
 # weather
 实时全国天气 ，自动定位城市，JavaScript
 
-#![Alt text](https://github.com/chenyufeng1991/NewsClient/raw/master/Screenshots/2.png)
+#![Alt text](https://github.com/AntonySufer/weather/blob/master/weather.png)
 
---javascript
+```js
   //新浪接口  city=城市或者缩写，不输入自动识别城市
     $.getScript('http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8',function(a){
     var s="",r="",q="";
@@ -59,4 +59,4 @@
         $("#warm").html(warm_html+"℃");
     }
 });
---javascript
+```js
