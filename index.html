@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" />
+    <title></title>
+    <link rel="stylesheet" href="">
+    <script type="text/javascript" src="./jquery-1.10.1.min.js"></script>
+</head>
+<body>
+<div style="background-color:#4193E9;height:78px;">
+   <p><img id="imgs" src=""./wea_img/default.png"" width="52px" height="52px" style="margin: 11px 0 0 20px;"/>  </p>
+     <div style="width:100px;margin-left: 78px;margin-top: -74px;color:#fff;font-size:24px;" >
+       <span id="city"></span>
+       <span id="warm"></span>
+    </div>
+</div>
+
+ <script>
+  var dataList = [
+        {
+             "img": "./wea_img/qing.png",
+            "weather": "晴"
+        },
+        {
+             "img": "./wea_img/duoyun.png",
+            "weather": "多云"
+        },
+        {
+            "img": "./wea_img/yin.png",
+            "weather": "阴"
+        },
+        {
+            "img": "./wea_img/zhenyu.png",
+            "weather": "阵雨"
+        },
+        {
+            "img": "./wea_img/leizhenyu.png",
+            "weather": "雷阵雨"
+        },
+        {
+            "img": "./wea_img/leizhenyubingbao.png",
+            "weather": "雷阵雨伴有冰雹"
+        },
+        {
+             "img": "./wea_img/xiaoxue.png",
+            "weather": "雨夹雪"
+        },
+        {
+            "img": "./wea_img/xiaoyu.png",
+            "weather": "小雨"
+        },
+        {
+           "img": "./wea_img/zhongyu.png",
+            "weather": "中雨"
+        },
+        {
+            "img": "./wea_img/dayu.png",
+            "weather": "大雨"
+        },
+        {
+            "img": "./wea_img/baoyu.png",
+            "weather": "暴雨"
+        },
+        {
+          "img": "./wea_img/dabaoyu.png",
+            "weather": "大暴雨"
+        },
+        {
+             "img": "./wea_img/tedabaoyu.png",
+            "weather": "特大暴雨"
+        },
+        {
+             "img": "./wea_img/zhenxue.png",
+            "weather": "阵雪"
+        },
+        {
+            "img": "./wea_img/xiaoxue.png",
+            "weather": "小雪"
+        },
+        {
+             "img": "./wea_img/zhongxue.png",
+            "weather": "中雪"
+        },
+        {
+             "img": "./wea_img/daxue.png",
+            "weather": "大雪"
+        },
+        {
+            "img": "./wea_img/baoxue.png",
+            "weather": "暴雪"
+        },
+        {
+            "img": "./wea_img/wu.png",
+            "weather": "雾"
+        },
+        {
+          "img": "./wea_img/dongyu.png",
+            "weather": "冻雨"
+        },
+        {
+            "img": "./wea_img/shachenbao.png",
+            "weather": "沙尘暴"
+        },
+        // {
+        //     "wid": "21",
+        //     "weather": "小到中雨"
+        // },
+        // {
+        //     "wid": "22",
+        //     "weather": "中到大雨"
+        // },
+        // {
+        //     "wid": "26",
+        //     "weather": "小到中雪"
+        // },
+        // {
+        //     "wid": "27",
+        //     "weather": "中到大雪"
+        // },
+        // {
+        //     "wid": "28",
+        //     "weather": "大到暴雪"
+        // },
+        {
+            "img": "./wea_img/fuchen.png",
+             "weather": "浮尘"
+        },
+        {
+           "img": "./wea_img/yangsha.png",
+            "weather": "扬沙"
+        },
+        {
+              "img": "./wea_img/qiangshachenbao.png",
+            "weather": "强沙尘暴"
+        },
+        {
+             "img": "./wea_img/mai.png",
+            "weather": "霾"
+        }
+    ];
+     //新浪接口  city=城市或者缩写，不输入自动识别城市
+    $.getScript('http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8',function(a){
+    var s="",r="",q="";
+    for(s in window.SWther.w){
+        q=SWther.w[s][0];
+        console.log(q);
+        r={city:s,date:SWther.add.now.split(" ")[0]||"",day_weather:q.s1,night_weather:q.s2,day_temp:q.t1,night_temp:q.t2,day_wind:q.p1,night_wind:q.p2};
+        console.log(r);
+       var default_tr=false;
+         var default_img='./wea_img/default.png';
+            if(q.s1.indexOf('到') !=-1 && q.s1.indexOf('转') !=-1 ){  //有转有到 取转
+                  var wea_one =q.s1.split('转'); 
+                    q.s1 =wea_one[1]; 
+                    console.log("转："+q.s1);    
+         }else{
+            if(q.s1.indexOf('到') !=-1 || q.s1.indexOf('转') !=-1 ){ 
+                        if(q.s1.indexOf('到') !=-1){  
+                                var wea_one =q.s1.split('到'); 
+                                q.s1 =wea_one[1]; 
+                                console.log("到："+q.s1);
+                        }else{
+                            var wea_one =q.s1.split('转'); 
+                                q.s1 =wea_one[1]; 
+                                console.log("转："+q.s1);
+                        }
+                        
+            }
+         }
+    
+        //匹配
+        for(var i=0; i<dataList.length;i++){
+            if(dataList[i].weather.indexOf(q.s1) !=-1){
+                console.log(dataList[i].weather);
+                 var img_url =dataList[i].img;
+                 $('#imgs').attr('src',img_url);
+                  default_tr =true ;
+                   break;
+               }
+         }
+        //没有匹配
+        if(!default_tr){
+           $('#imgs').attr('src',default_img);
+        }
+        
+        //温度
+        var warm_html ="";
+        if(r.day_temp>r.night_temp){
+               warm_html = r.night_temp+"~"+ r.day_temp;
+        }else{
+               warm_html = r.day_temp+"~"+ r.night_temp;
+        }
+        $("#city").html(r.city);
+        $("#warm").html(warm_html+"℃");
+    }
+});</script>
+</body>
+</html>
